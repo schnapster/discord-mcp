@@ -314,6 +314,7 @@ Remote MCP Connector:
 
 #### Server Information
 - [`get_server_info`](): Get detailed discord server information
+- [`edit_server`](): Edit settings of a Discord server, e.g. rename it
 
 #### User Management
 - [`get_user_id_by_name`](): Get a Discord user's ID by username in a guild for ping usage `<@id>`
