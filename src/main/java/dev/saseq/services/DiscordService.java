@@ -89,4 +89,34 @@ public class DiscordService {
                 " - Count: " + boostCount + "\n" +
                 " - Tier: " + boostTier;
     }
+
+    /**
+     * Edits settings of a Discord server.
+     *
+     * @param guildId Optional ID of the Discord server (guild). If not provided, the default server will be used.
+     * @param name    New name of the server.
+     * @param reason  Optional reason for the audit log.
+     * @return A confirmation with the server's new name and ID.
+     */
+    @Tool(name = "edit_server", description = "Edit settings of a Discord server, e.g. rename it")
+    public String editServer(@ToolParam(description = "Discord server ID", required = false) String guildId,
+                             @ToolParam(description = "New server name (2-100 characters)") String name,
+                             @ToolParam(description = "Reason for audit log", required = false) String reason) {
+        guildId = resolveGuildId(guildId);
+        if (guildId == null || guildId.isEmpty()) {
+            throw new IllegalArgumentException("Discord server ID cannot be null");
+        }
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("name cannot be null");
+        }
+
+        Guild guild = jda.getGuildById(guildId);
+        if (guild == null) {
+            throw new IllegalArgumentException("Discord server not found by guildId");
+        }
+        var manager = guild.getManager().setName(name);
+        if (reason != null && !reason.isEmpty()) manager.reason(reason);
+        manager.complete();
+        return "Updated server: " + name + " (ID: " + guild.getId() + ")";
+    }
 }
