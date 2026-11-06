@@ -43,12 +43,8 @@ public class MessageService {
         if (newsChannel != null) {
             return newsChannel;
         }
-        // Then try thread channel
-        ThreadChannel threadChannel = jda.getThreadChannelById(channelId);
-        if (threadChannel != null) {
-            return threadChannel;
-        }
-        return null;
+        // Then try thread channel, including archived ones
+        return ThreadLookup.find(jda, channelId);
     }
 
     /**
