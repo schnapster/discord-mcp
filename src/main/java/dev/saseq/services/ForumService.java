@@ -52,7 +52,7 @@ public class ForumService {
     }
 
     private ThreadChannel retrieveThreadChannelById(Guild guild, String postId) {
-        ThreadChannel thread = guild.getThreadChannelById(postId);
+        ThreadChannel thread = ThreadLookup.find(guild, postId);
         if (thread != null) {
             return thread;
         }
